@@ -78,8 +78,8 @@ def game():
     b_index = 0
     for block in [mn.block_one, mn.block_two, mn.block_three, mn.block_four, mn.block_five, mn.block_six]:
         st.dataframe(block)
-        st.text('Can you see your number in the table above?')
-        response = st.button('Yes!', key=k_index)
+        st.text('Press the YES button if you see your number in the table above?')
+        response = st.button('YES!', key=k_index)
         if response:
             calculate(b_index)
         b_index += 1
