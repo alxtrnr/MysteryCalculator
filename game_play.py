@@ -65,7 +65,7 @@ def welcome():
     greeting = 'Welcome to the magic calculator!'
     st.text(greeting)
     st.text('~' * len(greeting))
-    time.sleep(3)
+    time.sleep(1)
     st.text('Think of a number between 1 and 63. Keep the number secret. Don\'t tell anyone!\n')
     time.sleep(4)
     game()
@@ -78,8 +78,8 @@ def game():
     b_index = 0
     for block in [mn.block_one, mn.block_two, mn.block_three, mn.block_four, mn.block_five, mn.block_six]:
         st.dataframe(block)
-        st.text('Press the YES button if you see your number in the table above?')
-        response = st.button('YES!', key=k_index)
+        st.text('Press the YES button if your number is in the table above?')
+        response = st.button('YES!', key=k_index, type='primary')
         if response:
             calculate(b_index)
         b_index += 1
