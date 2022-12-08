@@ -77,7 +77,18 @@ def game():
     k_index = 0
     b_index = 0
     for block in [mn.block_one, mn.block_two, mn.block_three, mn.block_four, mn.block_five, mn.block_six]:
-        st.dataframe(block)
+        st.table(block)
+
+        # CSS to inject contained in a string
+        hide_table_row_index = """
+            <style>
+            thead tr th:first-child {display:none}
+            tbody th {display:none}
+            </style>
+            """
+        # Inject CSS with Markdown
+        st.markdown(hide_table_row_index, unsafe_allow_html=True)
+
         st.text('Press the YES button if your number is in the table above?')
         response = st.button('YES!', key=k_index, type='primary')
         if response:
