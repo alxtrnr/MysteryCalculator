@@ -72,7 +72,7 @@ def welcome():
     st.text(greeting)
     st.text('~' * len(greeting))
     time.sleep(1)
-    st.text('Think of a number between 1 and 63. Keep the number secret. Don\'t tell anyone!\n')
+    st.text('Think of a number between 1 and 63.')
     time.sleep(0.25)
     show_tables()
 
