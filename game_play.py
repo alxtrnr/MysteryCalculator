@@ -13,7 +13,6 @@ class MagicNumbers:
         self.block_six = None
         self.running_calculation = 0
         self.yes_button_widget_key = 0
-        self.no_button_widget_key = 7
         self.b_index = 0
 
 
@@ -55,8 +54,12 @@ def make_tables(block_in_blocks, block_name):
 
 
 def main():
+    if 'calculation' not in st.session_state:
+        st.session_state['calculation'] = 0
+
     attr_names = ['block_one', 'block_two', 'block_three', 'block_four', 'block_five', 'block_six']
     block_index = 0
+
     for block_attr_name in attr_names:
         make_tables(BLOCKS[block_index], block_attr_name)
         block_index += 1
@@ -71,45 +74,37 @@ def welcome():
     time.sleep(1)
     st.text('Think of a number between 1 and 63. Keep the number secret. Don\'t tell anyone!\n')
     time.sleep(0.25)
-    game()
+    show_tables()
 
 
-def game():
-    if 'calculation' not in st.session_state:
-        st.session_state['calculation'] = 0
-
+def show_tables():
     for block in [mn.block_one, mn.block_two, mn.block_three, mn.block_four, mn.block_five, mn.block_six]:
-        st.table(block)
-        check_this()
-    answer_page()
+        check_response()
 
-
-def check_this():
-    # CSS to inject contained in a string
-    hide_table_row_index = """
+        # CSS to inject contained in a string
+        hide_table_row_index = """
             <style>
             thead tr th:first-child {display:none}
             tbody th {display:none}
             </style>
             """
-    # Inject CSS with Markdown
-    st.markdown(hide_table_row_index, unsafe_allow_html=True)
+        # Inject CSS with Markdown
+        st.markdown(hide_table_row_index, unsafe_allow_html=True)
+        st.table(block)
 
-    st.markdown('Press the button if your number is in the table above')
-    yes_response = st.button('YES!', key=mn.yes_button_widget_key)
+    st.markdown("Check the **answer page** in the side bar to see the number you have been thinking of!")
 
+
+def check_response():
+    yes_response = st.button('Press Me If Your Number Is In The Table Below', key=mn.yes_button_widget_key)
     if yes_response:
         calculate(mn.b_index)
     mn.b_index += 1
     mn.yes_button_widget_key += 1
 
 
-def answer_page():
-    st.markdown("Check the **answer page** in the side bar to see the number you have been thinking of!")
-
-
-def calculate(bi):
-    st.session_state.calculation += BLOCKS[bi][0]
+def calculate(block_index):
+    st.session_state.calculation += BLOCKS[block_index][0]
 
 
 if __name__ == "__main__":
