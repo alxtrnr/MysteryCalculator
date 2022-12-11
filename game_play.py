@@ -12,6 +12,9 @@ class MagicNumbers:
         self.block_five = None
         self.block_six = None
         self.running_calculation = 0
+        self.yes_button_widget_key = 0
+        self.no_button_widget_key = 7
+        self.b_index = 0
 
 
 b1 = [(i + j) for i in range(0, 64, 2) for j in range(1, 2)]
@@ -67,34 +70,41 @@ def welcome():
     st.text('~' * len(greeting))
     time.sleep(1)
     st.text('Think of a number between 1 and 63. Keep the number secret. Don\'t tell anyone!\n')
-    time.sleep(4)
+    time.sleep(0.25)
     game()
 
 
 def game():
     if 'calculation' not in st.session_state:
         st.session_state['calculation'] = 0
-    k_index = 0
-    b_index = 0
+
     for block in [mn.block_one, mn.block_two, mn.block_three, mn.block_four, mn.block_five, mn.block_six]:
         st.table(block)
+        check_this()
+    answer_page()
 
-        # CSS to inject contained in a string
-        hide_table_row_index = """
+
+def check_this():
+    # CSS to inject contained in a string
+    hide_table_row_index = """
             <style>
             thead tr th:first-child {display:none}
             tbody th {display:none}
             </style>
             """
-        # Inject CSS with Markdown
-        st.markdown(hide_table_row_index, unsafe_allow_html=True)
+    # Inject CSS with Markdown
+    st.markdown(hide_table_row_index, unsafe_allow_html=True)
 
-        st.text('Press the YES button if your number is in the table above?')
-        response = st.button('YES!', key=k_index, type='primary')
-        if response:
-            calculate(b_index)
-        b_index += 1
-        k_index += 1
+    st.markdown('Press the button if your number is in the table above')
+    yes_response = st.button('YES!', key=mn.yes_button_widget_key)
+
+    if yes_response:
+        calculate(mn.b_index)
+    mn.b_index += 1
+    mn.yes_button_widget_key += 1
+
+
+def answer_page():
     st.markdown("Check the **answer page** in the side bar to see the number you have been thinking of!")
 
 
